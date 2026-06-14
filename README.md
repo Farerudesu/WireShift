@@ -41,7 +41,7 @@ Have Wi-Fi *and* Ethernet connected? Want your browser on the VPN but your game 
 | **Selectable routing method** | Choose Transparent Redirect or Manual Proxy per binding |
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 WireShift is composed of three projects:
 
@@ -53,7 +53,7 @@ WireShift is composed of three projects:
 
 ---
 
-## ⚙️ How It Works
+## How It Works
 
 WireShift's transparent mode uses a **NAT rewriting** approach powered by [WinDivert](https://github.com/basil00/Divert):
 
@@ -89,7 +89,7 @@ App ◄── Response ◄──── Reverse NAT rewrite ◄── Transparent
 |---|---|
 | **OS** | Windows 10 or Windows 11 (64-bit) |
 | **Runtime** | .NET 8.0 SDK (for building from source) |
-| **Privileges** | ⚠️ **Administrator**  -  required for WinDivert and WFP filter management |
+| **Privileges** |  **Administrator**  -  required for WinDivert and WFP filter management |
 
 
 ### Quick Start (Pre-built)
@@ -142,7 +142,7 @@ The output binaries will be in each project's `bin/Release/net8.0-windows/win-x6
 
 ---
 
-## 🔀 Routing Methods
+## Routing Methods
 
 ### Transparent Redirect *(Default)*
 
@@ -167,7 +167,7 @@ The output binaries will be in each project's `bin/Release/net8.0-windows/win-x6
 
 ---
 
-## 🗺️ Roadmap
+## Roadmap
 
 - [x] Per-app interface binding via WinDivert
 - [x] SOCKS5 proxy fallback

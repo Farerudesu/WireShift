@@ -15,9 +15,9 @@ Add the ability to distribute a bound application's TCP connections across multi
 
 ## Motivation
 
-- **Bandwidth aggregation** — Users with multiple internet connections (e.g., Ethernet + Wi-Fi, dual WAN) want to combine their throughput by spreading connections across all available interfaces.
-- **Failover** — If one connection drops, traffic automatically shifts to the remaining healthy interfaces with zero manual intervention.
-- **Traffic-type routing** — Use a low-latency interface for gaming or real-time applications while routing bulk downloads through a high-bandwidth interface.
+- **Bandwidth aggregation**  -  Users with multiple internet connections (e.g., Ethernet + Wi-Fi, dual WAN) want to combine their throughput by spreading connections across all available interfaces.
+- **Failover**  -  If one connection drops, traffic automatically shifts to the remaining healthy interfaces with zero manual intervention.
+- **Traffic-type routing**  -  Use a low-latency interface for gaming or real-time applications while routing bulk downloads through a high-bandwidth interface.
 
 ---
 
@@ -32,7 +32,7 @@ The codebase already has partial groundwork for load balancing:
 | `LoadBalancerService.cs` | Contains method stubs (not yet implemented) |
 | UI "Load Balancing" tab | Present but disabled |
 
-See **NOTES.md** (Phase 5 — Load Balancing groundwork) for the original design notes.
+See **NOTES.md** (Phase 5  -  Load Balancing groundwork) for the original design notes.
 
 ---
 
@@ -48,8 +48,8 @@ Given a set of interfaces with weights, build a schedule array proportional to t
 
 ```
 Example:
-  Interface A — weight 3
-  Interface B — weight 1
+  Interface A  -  weight 3
+  Interface B  -  weight 1
 
 Schedule: [A, A, A, B]
 
@@ -133,7 +133,7 @@ Continuous health monitoring ensures traffic is only routed to working interface
 #### Probe Mechanism
 
 - **Method:** TCP connect probe to a configurable endpoint.
-- **Default endpoint:** `1.1.1.1:443` (Cloudflare DNS — globally reachable, fast).
+- **Default endpoint:** `1.1.1.1:443` (Cloudflare DNS  -  globally reachable, fast).
 - **Probe interval:** Every **10 seconds** per interface.
 - **Probes are bound to each specific interface** to test that interface's actual connectivity.
 
@@ -176,7 +176,7 @@ When an interface is marked UNHEALTHY:
 1. Remove it from the active schedule (regenerate schedule with remaining healthy interfaces).
 2. All existing affinity cache entries pointing to the DOWN interface are invalidated.
 3. New connections are distributed across the remaining healthy interfaces.
-4. **Existing connections are NOT terminated** — they will fail naturally and the application will reconnect through a healthy interface.
+4. **Existing connections are NOT terminated**  -  they will fail naturally and the application will reconnect through a healthy interface.
 
 When an interface recovers:
 
@@ -348,7 +348,7 @@ public class HealthCheckConfig
 
 ## Implementation Phases
 
-### Phase 1 — Basic Weighted Round-Robin
+### Phase 1  -  Basic Weighted Round-Robin
 
 - Implement `LoadBalancerService.SelectInterface()` with weighted round-robin.
 - Integrate with `RedirectorService.MatchBinding()`.
@@ -356,14 +356,14 @@ public class HealthCheckConfig
 - Persist configuration in `config.json`.
 - **Milestone:** Connections from a bound app are distributed across interfaces by weight.
 
-### Phase 2 — Session Affinity Cache
+### Phase 2  -  Session Affinity Cache
 
 - Implement the LRU affinity cache with `ConcurrentDictionary`.
 - Add background cleanup timer for TTL-based eviction.
 - Add `SessionAffinityEnabled` and `SessionAffinityTtl` to the binding config.
 - **Milestone:** Repeated connections to the same server consistently use the same interface.
 
-### Phase 3 — Health Monitoring and Failover
+### Phase 3  -  Health Monitoring and Failover
 
 - Implement the TCP probe health checker as a background `Task`.
 - Track per-interface health state with the HEALTHY/UNHEALTHY state machine.
@@ -372,7 +372,7 @@ public class HealthCheckConfig
 - Add `GetHealthStatus` pipe command.
 - **Milestone:** Traffic automatically avoids downed interfaces and recovers when they come back.
 
-### Phase 4 — UI Integration
+### Phase 4  -  UI Integration
 
 - Enable the "Load Balancing" tab.
 - Build the multi-select interface list with weight sliders.
@@ -381,7 +381,7 @@ public class HealthCheckConfig
 - Poll for real-time updates via named pipe.
 - **Milestone:** Users can configure and monitor load balancing entirely from the GUI.
 
-### Phase 5 — Per-Interface Throughput Statistics
+### Phase 5  -  Per-Interface Throughput Statistics
 
 - Instrument `TransparentProxy` to track bytes sent/received per-interface.
 - Expose `GetConnectionStats` pipe command.
@@ -392,21 +392,21 @@ public class HealthCheckConfig
 
 ## Open Questions
 
-1. **Per-packet load balancing** — Should we support distributing individual packets across interfaces (MPTCP-style)? This would offer true bandwidth aggregation for single connections but is significantly more complex, requiring packet reassembly and reordering. Recommendation: defer to a future RFC.
+1. **Per-packet load balancing**  -  Should we support distributing individual packets across interfaces (MPTCP-style)? This would offer true bandwidth aggregation for single connections but is significantly more complex, requiring packet reassembly and reordering. Recommendation: defer to a future RFC.
 
-2. **Long-lived connections** — How should WebSocket, SSH, and other persistent connections be handled? They will be assigned to one interface at connection time and stay there. If that interface goes down, the connection will break. Should we attempt transparent migration? Recommendation: document this as expected behavior for v1; explore connection migration in a future phase.
+2. **Long-lived connections**  -  How should WebSocket, SSH, and other persistent connections be handled? They will be assigned to one interface at connection time and stay there. If that interface goes down, the connection will break. Should we attempt transparent migration? Recommendation: document this as expected behavior for v1; explore connection migration in a future phase.
 
-3. **Per-interface health endpoints** — Should the health check target be configurable per-interface rather than globally? For example, one interface might be on a corporate network where `1.1.1.1` is blocked. Recommendation: support per-interface overrides in `HealthCheckConfig` from Phase 3.
+3. **Per-interface health endpoints**  -  Should the health check target be configurable per-interface rather than globally? For example, one interface might be on a corporate network where `1.1.1.1` is blocked. Recommendation: support per-interface overrides in `HealthCheckConfig` from Phase 3.
 
-4. **UDP traffic** — The current design focuses on TCP connections. How should UDP traffic (DNS, gaming protocols) be handled? Recommendation: route all UDP through the primary interface initially; add UDP load balancing in a future phase.
+4. **UDP traffic**  -  The current design focuses on TCP connections. How should UDP traffic (DNS, gaming protocols) be handled? Recommendation: route all UDP through the primary interface initially; add UDP load balancing in a future phase.
 
-5. **Weight auto-tuning** — Should we automatically adjust weights based on measured throughput or latency? Recommendation: gather statistics in Phase 5 first, then evaluate feasibility.
+5. **Weight auto-tuning**  -  Should we automatically adjust weights based on measured throughput or latency? Recommendation: gather statistics in Phase 5 first, then evaluate feasibility.
 
 ---
 
 ## References
 
-- **NOTES.md** — Phase 5 (Load Balancing groundwork) for original design discussions.
-- **LoadBalancerService.cs** — Existing method stubs to be implemented.
-- **InterfaceWeight.cs** — Existing data model for interface weights.
-- **BindingMode enum** — `BindingMode.LoadBalance` is already defined.
+- **NOTES.md**  -  Phase 5 (Load Balancing groundwork) for original design discussions.
+- **LoadBalancerService.cs**  -  Existing method stubs to be implemented.
+- **InterfaceWeight.cs**  -  Existing data model for interface weights.
+- **BindingMode enum**  -  `BindingMode.LoadBalance` is already defined.

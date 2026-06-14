@@ -1,0 +1,34 @@
+# Build outputs
+bin/
+obj/
+publish/
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo
+*.sln.docstates
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Rider
+.idea/
+
+# User-specific
+*.rsuser
+*.userprefs
+
+# NuGet
+*.nupkg
+packages/
+
+# Test results
+TestResults/
+
+# Qoder
+.qoder/
+test_unicast/

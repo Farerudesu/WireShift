@@ -27,20 +27,18 @@ Have Wi-Fi *and* Ethernet connected? Want your browser on the VPN but your game 
 ---
 
 ## ✨ Features
-
 | Feature | Description |
-|---|---|---|
+|---|---|
 | **One-click binding** | Select an app, select an interface, bind. Done. |
-| **Transparent traffic redirection** | WinDivert intercepts and reroutes packets automatically  -  no app configuration needed |
+| **Transparent traffic redirection** | WinDivert intercepts and reroutes packets automatically — no app configuration needed |
 | **SOCKS5 proxy fallback** | For apps with built-in proxy support (browsers, download managers, etc.) |
 | **Real-time process list** | See all running processes with their active network connections |
 | **Interface metric management** | Automatically adjusts adapter metrics for proper routing |
 | **Auto-reconnection** | UI automatically reconnects to the background service if it restarts |
 | **QUIC/UDP blocking** | Blocks QUIC & UDP for bound apps, forcing TCP for reliable interception |
 | **IPv6 blocking** | Ensures IPv4-only routing through the target interface |
-| **Persistent configuration** | Bindings survive restarts  -  pick up right where you left off |
+| **Persistent configuration** | Bindings survive restarts — pick up right where you left off |
 | **Selectable routing method** | Choose Transparent Redirect or Manual Proxy per binding |
-
 ---
 
 ## 🏗️ Architecture

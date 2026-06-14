@@ -243,8 +243,7 @@ This project is licensed under the **MIT License**  -  see the [LICENSE](LICENSE
 
 - **[WinDivert](https://github.com/basil00/Divert)** by basil00  -  user-mode packet capture, modification, and injection for Windows
 - **Windows Filtering Platform (WFP)**  -  Microsoft's built-in framework for per-application network filter management
-- All [contributors](https://github.com/YOUR_USERNAME/WireShift/graphs/contributors) who help make WireShift better
-
+- **Special Thanks To Gemini 3.1 Pro, Claude 4.6 Opus**
 ---
 
 <p align="center">

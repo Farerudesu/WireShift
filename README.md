@@ -13,7 +13,7 @@
 
 ---
 
-## 📖 Overview
+## Overview
 
 **WireShift** is an open-source Windows desktop application that lets you bind specific applications to specific network interfaces  -  forcing their traffic through the adapter you choose.
 
@@ -26,7 +26,7 @@ Have Wi-Fi *and* Ethernet connected? Want your browser on the VPN but your game 
 
 ---
 
-## ✨ Features
+## Features
 | Feature | Description |
 |---|---|
 | **One-click binding** | Select an app, select an interface, bind. Done. |
@@ -50,41 +50,6 @@ WireShift is composed of three projects:
 | **WireShift.Shared** | `NetBinder.Shared` | Shared models, protocol messages, and DTOs used by both Service and UI |
 | **WireShift.Service** | `NetBinder.Service` | Background service  -  WinDivert packet interception, WFP filter management, SOCKS5 proxy server, transparent proxy, named pipe IPC server |
 | **WireShift.UI** | `NetBinder.UI` | WPF desktop application  -  process list, interface selector, binding management |
-
-### System Diagram
-
-```mermaid
-flowchart LR
-    subgraph UserSpace["User Space"]
-        UI["WireShift.UI\n(WPF App)"]
-        Service["WireShift.Service\n(Background Service)"]
-    end
-
-    subgraph ServiceInternals["Service Internals"]
-        WinDivert["WinDivert\n(Packet Capture)"]
-        WFP["WFP Filters\n(Per-App Rules)"]
-        TransparentProxy["Transparent\nProxy"]
-        SOCKS5["SOCKS5\nProxy"]
-    end
-
-    subgraph Network["Network"]
-        NIC1["Wi-Fi Adapter"]
-        NIC2["Ethernet Adapter"]
-        NIC3["VPN Adapter"]
-    end
-
-    UI <-->|"Named Pipe\n(IPC)"| Service
-    Service --> WinDivert
-    Service --> WFP
-    Service --> TransparentProxy
-    Service --> SOCKS5
-    WinDivert --> TransparentProxy
-    TransparentProxy --> NIC1
-    TransparentProxy --> NIC2
-    SOCKS5 --> NIC2
-    SOCKS5 --> NIC3
-    WFP -.->|"Filter Rules"| WinDivert
-```
 
 ---
 
@@ -116,7 +81,7 @@ App ◄── Response ◄──── Reverse NAT rewrite ◄── Transparent
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -129,9 +94,9 @@ App ◄── Response ◄──── Reverse NAT rewrite ◄── Transparent
 
 ### Quick Start (Pre-built)
 
-1. 📥 Download your preferred edition from [**Releases**](https://github.com/YOUR_USERNAME/WireShift/releases)
-2. 📂 Extract the ZIP to a folder of your choice
-3. ▶️ Double-click **`WireShift.bat`** to launch (will prompt for admin privileges)
+1. Download your preferred edition from [**Releases**](https://github.com/YOUR_USERNAME/WireShift/releases)
+2. Extract the ZIP to a folder of your choice
+3. Double-click **`WireShift.bat`** to launch (will prompt for admin privileges)
 
 > [!IMPORTANT]
 > WireShift **must** run as Administrator. The launcher batch file will request elevation automatically.
@@ -142,7 +107,7 @@ App ◄── Response ◄──── Reverse NAT rewrite ◄── Transparent
 ### Building from Source
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/WireShift.git
+git clone https://github.com/Farerudesu/WireShift.git
 cd WireShift
 dotnet build
 ```

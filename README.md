@@ -15,31 +15,31 @@
 
 ## 📖 Overview
 
-**WireShift** is an open-source Windows desktop application that lets you bind specific applications to specific network interfaces — forcing their traffic through the adapter you choose.
+**WireShift** is an open-source Windows desktop application that lets you bind specific applications to specific network interfaces  -  forcing their traffic through the adapter you choose.
 
 Have Wi-Fi *and* Ethernet connected? Want your browser on the VPN but your game on Ethernet? WireShift makes it one click.
 
-- 🖥️ **Per-application network interface binding** — force any app's traffic through a specific adapter (Wi-Fi, Ethernet, VPN, cellular, etc.)
-- 🔀 **Two routing modes** — *Transparent Redirect* via WinDivert for zero-config interception, and *Manual Proxy* via SOCKS5 as a flexible fallback
-- ⚡ **Real-time process monitoring** — live process list with network connection info, updated in real time
-- 🎨 **WPF desktop UI** — clean, modern interface built with Windows Presentation Foundation
+- **Per-application network interface binding**  -  force any app's traffic through a specific adapter (Wi-Fi, Ethernet, VPN, cellular, etc.)
+- **Two routing modes**  -  *Transparent Redirect* via WinDivert for zero-config interception, and *Manual Proxy* via SOCKS5 as a flexible fallback
+- **Real-time process monitoring**  -  live process list with network connection info, updated in real time
+- **WPF desktop UI**  -  clean, modern interface built with Windows Presentation Foundation
 
 ---
 
 ## ✨ Features
 
-| | Feature | Description |
+| Feature | Description |
 |---|---|---|
-| 🎯 | **One-click binding** | Select an app, select an interface, bind. Done. |
-| 👻 | **Transparent traffic redirection** | WinDivert intercepts and reroutes packets automatically — no app configuration needed |
-| 🧦 | **SOCKS5 proxy fallback** | For apps with built-in proxy support (browsers, download managers, etc.) |
-| 📡 | **Real-time process list** | See all running processes with their active network connections |
-| 📊 | **Interface metric management** | Automatically adjusts adapter metrics for proper routing |
-| 🔄 | **Auto-reconnection** | UI automatically reconnects to the background service if it restarts |
-| 🚫 | **QUIC/UDP blocking** | Blocks QUIC & UDP for bound apps, forcing TCP for reliable interception |
-| 🌐 | **IPv6 blocking** | Ensures IPv4-only routing through the target interface |
-| 💾 | **Persistent configuration** | Bindings survive restarts — pick up right where you left off |
-| 🔧 | **Selectable routing method** | Choose Transparent Redirect or Manual Proxy per binding |
+| **One-click binding** | Select an app, select an interface, bind. Done. |
+| **Transparent traffic redirection** | WinDivert intercepts and reroutes packets automatically  -  no app configuration needed |
+| **SOCKS5 proxy fallback** | For apps with built-in proxy support (browsers, download managers, etc.) |
+| **Real-time process list** | See all running processes with their active network connections |
+| **Interface metric management** | Automatically adjusts adapter metrics for proper routing |
+| **Auto-reconnection** | UI automatically reconnects to the background service if it restarts |
+| **QUIC/UDP blocking** | Blocks QUIC & UDP for bound apps, forcing TCP for reliable interception |
+| **IPv6 blocking** | Ensures IPv4-only routing through the target interface |
+| **Persistent configuration** | Bindings survive restarts  -  pick up right where you left off |
+| **Selectable routing method** | Choose Transparent Redirect or Manual Proxy per binding |
 
 ---
 
@@ -50,26 +50,26 @@ WireShift is composed of three projects:
 | Project | Internal Name | Role |
 |---|---|---|
 | **WireShift.Shared** | `NetBinder.Shared` | Shared models, protocol messages, and DTOs used by both Service and UI |
-| **WireShift.Service** | `NetBinder.Service` | Background service — WinDivert packet interception, WFP filter management, SOCKS5 proxy server, transparent proxy, named pipe IPC server |
-| **WireShift.UI** | `NetBinder.UI` | WPF desktop application — process list, interface selector, binding management |
+| **WireShift.Service** | `NetBinder.Service` | Background service  -  WinDivert packet interception, WFP filter management, SOCKS5 proxy server, transparent proxy, named pipe IPC server |
+| **WireShift.UI** | `NetBinder.UI` | WPF desktop application  -  process list, interface selector, binding management |
 
 ### System Diagram
 
 ```mermaid
 flowchart LR
-    subgraph UserSpace["🖥️ User Space"]
+    subgraph UserSpace["User Space"]
         UI["WireShift.UI\n(WPF App)"]
         Service["WireShift.Service\n(Background Service)"]
     end
 
-    subgraph ServiceInternals["⚙️ Service Internals"]
+    subgraph ServiceInternals["Service Internals"]
         WinDivert["WinDivert\n(Packet Capture)"]
         WFP["WFP Filters\n(Per-App Rules)"]
         TransparentProxy["Transparent\nProxy"]
         SOCKS5["SOCKS5\nProxy"]
     end
 
-    subgraph Network["🌐 Network"]
+    subgraph Network["Network"]
         NIC1["Wi-Fi Adapter"]
         NIC2["Ethernet Adapter"]
         NIC3["VPN Adapter"]
@@ -108,10 +108,10 @@ App ◄── Response ◄──── Reverse NAT rewrite ◄── Transparent
 
 **Step by step:**
 
-1. **Capture** — WinDivert intercepts the outbound **SYN** packet from the bound application
-2. **Rewrite** — The destination address is rewritten to point at WireShift's local transparent proxy
-3. **Proxy connects** — The transparent proxy opens a connection to the *real* destination, bound to the target network interface using `IP_UNICAST_IF` and explicit socket binding
-4. **Reverse NAT** — Response packets are rewritten so the application sees them as coming from the original server — completely transparent
+1. **Capture**  -  WinDivert intercepts the outbound **SYN** packet from the bound application
+2. **Rewrite**  -  The destination address is rewritten to point at WireShift's local transparent proxy
+3. **Proxy connects**  -  The transparent proxy opens a connection to the *real* destination, bound to the target network interface using `IP_UNICAST_IF` and explicit socket binding
+4. **Reverse NAT**  -  Response packets are rewritten so the application sees them as coming from the original server  -  completely transparent
 
 > [!NOTE]
 > WFP (Windows Filtering Platform) filters are installed per-app to ensure only the bound application's traffic is intercepted. Other applications are unaffected.
@@ -126,16 +126,8 @@ App ◄── Response ◄──── Reverse NAT rewrite ◄── Transparent
 |---|---|
 | **OS** | Windows 10 or Windows 11 (64-bit) |
 | **Runtime** | .NET 8.0 SDK (for building from source) |
-| **Privileges** | ⚠️ **Administrator** — required for WinDivert and WFP filter management |
+| **Privileges** | ⚠️ **Administrator**  -  required for WinDivert and WFP filter management |
 
-### Download Editions
-
-WireShift is available in two editions:
-
-| Edition | Size | .NET Required? | Best For |
-|---|---|---|---|
-| 🪶 **Portable** | **~11 MB** | ✅ Yes — [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) | Developers, users who already have .NET installed |
-| 📦 **Standalone** | **~228 MB** | ❌ No — fully self-contained | End users who just want it to work |
 
 ### Quick Start (Pre-built)
 
@@ -147,7 +139,7 @@ WireShift is available in two editions:
 > WireShift **must** run as Administrator. The launcher batch file will request elevation automatically.
 
 > [!TIP]
-> If you have .NET 8 installed, grab the **Portable** edition — it's 20x smaller!
+> If you have .NET 8 installed, grab the **Portable** edition  -  it's 20x smaller!
 
 ### Building from Source
 
@@ -173,14 +165,14 @@ The output binaries will be in each project's `bin/Release/net8.0-windows/win-x6
 
 ---
 
-## 📋 Usage
+## Usage
 
-1. **Launch WireShift** — run `WireShift.bat`, or start both the Service and UI executables as Administrator
+1. **Launch WireShift**  -  run `WireShift.bat`, or start both the Service and UI executables as Administrator
 2. **Select a network interface** from the left panel (Wi-Fi, Ethernet, VPN, etc.)
 3. **Select a running process** from the right panel's real-time process list
-4. **Choose a routing method** — *Transparent Redirect* or *Manual Proxy (SOCKS5)*
+4. **Choose a routing method**  -  *Transparent Redirect* or *Manual Proxy (SOCKS5)*
 5. **Click `Bind -->`** or double-click the process to create the binding
-6. ✅ The binding appears in the **bottom panel** with its current status
+6. The binding appears in the **bottom panel** with its current status
 
 > [!TIP]
 > You can change the routing method for an existing binding without removing it. Just select the binding and switch modes.
@@ -194,7 +186,7 @@ The output binaries will be in each project's `bin/Release/net8.0-windows/win-x6
 | | |
 |---|---|
 | **How** | WinDivert intercepts packets at the network layer and reroutes them through a local transparent proxy |
-| **Config needed** | None — completely automatic |
+| **Config needed** | None  -  completely automatic |
 | **Best for** | Most applications: games, streaming, productivity tools, etc. |
 | **Pros** | Zero-config, works with any TCP application |
 
@@ -219,7 +211,7 @@ The output binaries will be in each project's `bin/Release/net8.0-windows/win-x6
 - [x] WFP filter management
 - [x] Interface metric control
 - [x] Selectable routing methods per binding
-- [ ] 🔥 **Load Balancing** — distribute connections across multiple interfaces *(contributors wanted!)*
+- [ ] **Load Balancing**  -  distribute connections across multiple interfaces *(contributors wanted!)*
 - [ ] Kernel-mode WFP callout driver for true transparent binding
 - [ ] Per-interface bandwidth monitoring
 - [ ] System tray mode with minimize-to-tray
@@ -229,13 +221,13 @@ The output binaries will be in each project's `bin/Release/net8.0-windows/win-x6
 
 ## 🤝 Contributing
 
-We welcome contributions of all kinds — bug fixes, features, docs, and tests!
+We welcome contributions of all kinds  -  bug fixes, features, docs, and tests!
 
 Please see **[CONTRIBUTING.md](CONTRIBUTING.md)** for guidelines on how to get started.
 
-### 🔥 Help Wanted: Load Balancing
+### Help Wanted: Load Balancing
 
-We're actively looking for contributors to help design and implement **multi-interface load balancing** — distributing an application's connections across multiple network adapters for increased throughput and redundancy.
+We're actively looking for contributors to help design and implement **multi-interface load balancing**  -  distributing an application's connections across multiple network adapters for increased throughput and redundancy.
 
 > 📄 Read the **[Load Balancing RFC](docs/RFC_LOAD_BALANCING.md)** for the full design proposal and discussion.
 
@@ -243,16 +235,16 @@ If you're interested, open an issue or jump into the RFC discussion!
 
 ---
 
-## 📄 License
+## License
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License**  -  see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
-- **[WinDivert](https://github.com/basil00/Divert)** by basil00 — user-mode packet capture, modification, and injection for Windows
-- **Windows Filtering Platform (WFP)** — Microsoft's built-in framework for per-application network filter management
+- **[WinDivert](https://github.com/basil00/Divert)** by basil00  -  user-mode packet capture, modification, and injection for Windows
+- **Windows Filtering Platform (WFP)**  -  Microsoft's built-in framework for per-application network filter management
 - All [contributors](https://github.com/YOUR_USERNAME/WireShift/graphs/contributors) who help make WireShift better
 
 ---

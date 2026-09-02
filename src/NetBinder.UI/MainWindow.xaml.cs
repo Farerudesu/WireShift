@@ -26,6 +26,14 @@ public partial class MainWindow : Window
     }
 
     /// <summary>
+    /// Minimizes the window to the taskbar.
+    /// </summary>
+    private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+    {
+        this.WindowState = WindowState.Minimized;
+    }
+
+    /// <summary>
     /// Event handler for copying the SOCKS5 proxy endpoint to the clipboard.
     /// </summary>
     private void CopyProxy_Click(object sender, RoutedEventArgs e)

@@ -24,6 +24,10 @@ public partial class MainWindow : Window
         }
         base.OnClosed(e);
     }
+    private void CloseButton_Click(object sender, RoutedEventArgs e)
+    {
+        this.Close();
+    }
 
     /// <summary>
     /// Minimizes the window to the taskbar.

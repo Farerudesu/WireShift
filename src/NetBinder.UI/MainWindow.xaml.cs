@@ -24,7 +24,7 @@ public partial class MainWindow : Window
         }
         base.OnClosed(e);
     }
-
+   
     /// <summary>
     /// Event handler for copying the SOCKS5 proxy endpoint to the clipboard.
     /// </summary>

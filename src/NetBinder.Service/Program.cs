@@ -44,7 +44,7 @@ builder.Services.AddSingleton<TransparentProxy>(sp =>
 builder.Services.AddHostedService<Worker>();
 
 // Configure as Windows Service if needed
-// builder.Services.AddWindowsService(options => { options.ServiceName = "NetBinder Service"; });
+ builder.Services.AddWindowsService(options => { options.ServiceName = "NetBinder Service"; });//este estaba comentado, lo descomente para que se ejecute como servicio de windows
 
 var host = builder.Build();
 host.Run();

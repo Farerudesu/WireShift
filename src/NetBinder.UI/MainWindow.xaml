@@ -9,6 +9,7 @@
         mc:Ignorable="d"
         Title="NetBinder - Network Interface Binding Manager" Height="820" Width="1180"
         MinHeight="700" MinWidth="1000"
+        WindowState="Maximized"
         WindowStartupLocation="CenterScreen"
         Background="#F3F3F3">
 
